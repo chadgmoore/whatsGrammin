@@ -34,6 +34,7 @@ $(document).ready(function() {
        cache: false,
        url: url        
    }).success(function(data) {
+       console.log( data );
        $.each(data.items, function(i,item){
         $( '<li><img src="'+item.images.thumbnail.url+'"></li>' ).appendTo( '.images-container ul' )
          // $('.images-container ul').appendTo('<li><img src="'+data.thumbnail+'"></li>');
