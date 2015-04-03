@@ -34,8 +34,8 @@ $(document).ready(function() {
        cache: false,
        url: url        
    }).success(function(data) {
-       console.log( data );
-       $.each(data.items, function(i,item){
+       console.log( data.meta, data.data );
+       $.each(data.data, function(i,item){
         $( '<li><img src="'+item.images.thumbnail.url+'"></li>' ).appendTo( '.images-container ul' )
          // $('.images-container ul').appendTo('<li><img src="'+data.thumbnail+'"></li>');
          // $("< img/>").attr("src", item.media.m).appendTo("#flickrapi-results");
