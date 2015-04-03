@@ -4,7 +4,7 @@ $(document).ready(function() {
   var url = '';
   var i = 0;
 
-  $('li').on('click', function(event) {
+  $('li #knownLocation').on('click', function(event) {
   console.log($(this).text());
   newLocation = ($(this).text());
 
@@ -22,30 +22,98 @@ $(document).ready(function() {
   locs['San Diego'] = 'lat=32.7150&lng=117.1625';
   locs['Singapore'] = 'lat=1.3000&lng=103.8000';
 
-  for (var i in locs){ if (i == newLocation){latLong = locs[i];}}
+  for (var i in locs){ if (i == newLocation){var latLong = locs[i];}}
     url = ('https://api.instagram.com/v1/media/search?' 
       + latLong + 
-      'client_id=a64531c6c9da41248aa4a180947ef682');
-  
-  $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        cache: false,
-        url: url,
-        success: displayImages(url)
-    });
-});
+      '&client_id=a64531c6c9da41248aa4a180947ef682');
+  console.log(url);
+     
+      $.ajax({
+       type: "GET",
+       dataType: "jsonp",
+       cache: false,
+       url: url        
+   }).success(function(data) {
+       $.each(data.items, function(i,item){
+        $( '<li><img src="'+item.images.thumbnail.url+'"></li>' ).appendTo( '.images-container ul' )
+         // $('.images-container ul').appendTo('<li><img src="'+data.thumbnail+'"></li>');
+         // $("< img/>").attr("src", item.media.m).appendTo("#flickrapi-results");
+         if ( i == 10 ) return false;
+
+   //  $.ajax({
+   //     type: "GET",
+   //     dataType: "jsonp",
+   //     cache: false,
+   //     url: url        
+   // }).success(function(data) {
+   //     $.each(data.items, function(i,item){
+   //       $("< img/>").attr("src", ('<li><img src="'+i.images.thumbnail.url+'"></li>')).appendTo(".images-container ul");
+   //       // $('.images-container ul').appendTo('<li><img src="'+data.thumbnail+'"></li>');
+   //       // $("< img/>").attr("src", item.media.m).appendTo("#flickrapi-results");
+   //       if ( i == 10 ) return false;
+     })
+     })
+     });
+
 
 });
 
 
-function displayImages(data) {
-  var imagesElem = $('.images-container').clone();
-  // $('.info-container h1').empty().append('<span style="color:#ffcf35">' + newLocation + '</span>');
-  // $('.images-container ul').empty().append('<li><img src="http://bighugelabs.com/img/lolcat-sample.jpg" alt=""></li>');
-  for (var i = 0; i < 10; i++) {
-    $(".images-container ul").append("<a target='_blank' href='" + data.data[i].link + "'><img src='" + data.data[i].images.low_resolution.url +"'></img></a>");
-  }
-}
+// function(data) {
+//   $.each(data.items, function(i,item){
+//     $("< img/>").attr("src", item.media.m).appendTo("#flickrapi-results");
+//     if ( i == 10 ) return false;
+//   });
+  // $.each(result[i].images.thumbnail.url, function(index, element) {
+  //   $(".images-container ul").append("<li><img>"+result[i].images.thumbnail.url+"</img></li>"); 
+  // var result = $.ajax({
+  //       type: "GET",
+  //       dataType: "jsonp",
+  //       cache: false,
+  //       url: url,        
+  //   });
+
+  // $.ajax(result.href, {
+  //     success: function(data) {
+  //       $.each(data.items, function(i,item){
+  //         $("< img/>").attr("src", ('<li><img src="'+i.images.thumbnail.url+'"></li>')).appendTo(".images-container ul");
+  //         // $('.images-container ul').appendTo('<li><img src="'+data.thumbnail+'"></li>');
+  //         // $("< img/>").attr("src", item.media.m).appendTo("#flickrapi-results");
+  //         if ( i == 10 ) return false;
+  //     })
+  //     }
+  //     });
+
+
+//   var result = $.ajax({
+//         type: "GET",
+//         dataType: "jsonp",
+//         cache: false,
+//         url: url,
+//         success:(function(){$.each(result[i].images.thumbnail.url, function(index, element) {
+//     $(".images-container ul").append("<li><img>"+result[i].images.thumbnail.url+"</img></li>")})        
+//     })
+// });
+
+  // return result;
+
+// function displayImages(result) {
+//   var imagesElem = $('.images-container').clone();
+//   // $('.info-container h1').empty().append('<span style="color:#ffcf35">' + newLocation + '</span>');
+//   // $('.images-container ul').empty().append('<li><img src="http://bighugelabs.com/img/lolcat-sample.jpg" alt=""></li>');
+//   var imgThumb = result.find('thumbnail')
+//       .attr('href', images.thumbnail.link);
+//   var imgThumb = result.find['thumbnail'].attr
+
+//   console.log(imgThumb);
+//   $(".images-container ul").append("<img>"+imgThumb+"</img>");
+
+//   // for (var i = 0; i < 10; i++) {
+//   //   $(".images-container ul").append("<a target='_blank' href='" + data.data[i].link + "'><img src='" + data.data[i].images.low_resolution.url +"'></img></a>");
+//   // }
+// }
+
+
+
 
 
